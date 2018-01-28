@@ -167,8 +167,8 @@ function update()
 
 function drawRect()
 {
-    ctxMap.fillStyle = "blue";
-    ctxMap.fillRect (10, 10, 100, 100);
+    ctxMap.fillStyle = "#01796f";
+    ctxMap.fillRect (0, 0, 1200, 650);
 }
 
 function clearRect()
