@@ -66,7 +66,7 @@ function Player()
     this.DrawY = 190;
     this.width = 110;
     this.height = 80;
-    this.speed = 5;
+    this.speed = 7;
     
     //Key
     this.isUp    = false; 
