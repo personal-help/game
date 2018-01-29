@@ -12,3 +12,10 @@ body{
     display: block;
     margin: -650px auto 0px;;
 }
+
+.text{
+    text-align: center;
+    font-size: 2em;
+    color: black;
+    font-family: cursive;
+}
