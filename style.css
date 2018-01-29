@@ -8,7 +8,7 @@ body{
     margin: 30px auto 0px;
 }
 
-#player{
+#player, #enemy{
     display: block;
     margin: -650px auto 0px;;
 }
