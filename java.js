@@ -6,6 +6,9 @@ var ctxMap;
 var pl;
 var ctxPl;
 
+var en;
+var ctxEn;
+
 var drawBtn;
 var clearBtn;
 
@@ -22,6 +25,7 @@ var player;
 var enemy;
 
 var isPlaying;
+var isEneming;
 
 var requestAnimFrame =  window.requestAnimationFrame || 
                         window.webkitRequestAnimationFrame ||
@@ -37,10 +41,17 @@ function init()
     pl = document.getElementById("player");
     ctxPl = pl.getContext("2d");
     
+    en = document.getElementById("enemy");
+    ctxEn = en.getContext("2d");
+    
     map.width  = gameWidth;
     map.height = gameHeigth;
+    
     pl.width   = gameWidth;
     pl.height  = gameHeigth;
+    
+    en.width   = gameWidth;
+    en.height  = gameHeigth;
     
     drawBtn = document.getElementById("drawBtn")
     clearBtn = document.getElementById("clearBtn")
@@ -57,6 +68,8 @@ function init()
     document.addEventListener("keydown", checkKeyDown, false);
     document.addEventListener("keyup", checkKeyUp, false);
 }
+
+////PLAYER/////////////////////////////////////
 
 function Player()
 {
@@ -75,23 +88,6 @@ function Player()
     this.isRight = false;    
 }
 
-function Enemy()
-{
-    this.srcX = 0;
-    this.srcY = 112;
-    this.drawX = 900;
-    this.DrawY = 120;
-    this.width = 100;
-    this.height = 50;
-    this.speed = 8; 
-
-}
-
-Enemy.prototype.draw = function()
-{
-    ctxMap.drawImage (tiles, this.srcX, this.srcY, this.width, this.height, this.drawX, this.DrawY, this.width, this.height);
-}
-
 Player.prototype.draw = function()
 {
     clearctxPlayer();
@@ -105,8 +101,8 @@ Player.prototype.update = function()
 
 Player.prototype.chooseDir = function()
 {
-    if(this.isUp)    this.drawY -= this.speed;
-    if(this.isDown)  this.drawY += this.speed;
+    if(this.isUp)    this.DrawY -= this.speed;
+    if(this.isDown)  this.DrawY += this.speed;
     if(this.isRight) this.drawX += this.speed;
     if(this.isLeft)  this.drawX -= this.speed;
 }
@@ -131,6 +127,49 @@ function checkKeyUp(e)
     if(keyChar == "S")  {player.isDown  = false; e.preventDefault();}
     if(keyChar == "A")  {player.isLeft  = false; e.preventDefault();}
     if(keyChar == "D")  {player.isRight = false; e.preventDefault();}
+}
+
+function clearctxPlayer()
+{
+    ctxPl.clearRect(0, 0, gameWidth, gameHeigth);
+}
+//////////////////////////////////////////////////////
+
+
+///////ENEMY/////////////////////////////////////////
+function Enemy()
+{
+    this.srcX = 0;
+    this.srcY = 112;
+    this.drawX = 900;
+    this.DrawY = 120;
+    this.width = 100;
+    this.height = 50;
+    this.speed = 8; 
+
+}
+
+Enemy.prototype.draw = function()
+{
+    clearctxEn();
+    ctxEn.drawImage (tiles, this.srcX, this.srcY, this.width, this.height, this.drawX, this.DrawY, this.width, this.height);
+}
+
+function clearctxEn()
+{
+    ctxEn.clearRect(0, 0, gameWidth, gameHeigth);
+}
+
+Enemy.prototype.update = function()
+{
+    this.DrawY += this.speed;   
+}
+
+//////////////////////////////////////////////////////
+
+function update()
+{
+    player.update();
 }
     
 function draw()
@@ -160,11 +199,6 @@ function stopLoop()
     isPlaying = false;
 }
 
-function update()
-{
-    player.update();
-}
-
 function drawRect()
 {
     ctxMap.fillStyle = "#01796f";
@@ -176,14 +210,7 @@ function clearRect()
     ctxMap.clearRect (0, 0, 1200, 650);
 }
 
-function clearctxPlayer()
-{
-    ctxPl.clearRect(0, 0, gameWidth, gameHeigth);
-}
-
 function drawBg()
 {
     ctxMap.drawImage (background, 0, 0, 1200, 650, 0, 0, gameWidth, gameHeigth);
 }
-
-
