@@ -2,13 +2,12 @@ body{
     background: #01796f;
 }
 
-#map{
+canvas{
     display: block;
-    background: #FFF;
     margin: 30px auto 0px;
 }
 
-#player, #enemy{
+#player, #enemy, #one, #two{
     display: block;
     margin: -650px auto 0px;;
 }

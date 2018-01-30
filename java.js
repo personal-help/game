@@ -6,8 +6,15 @@ var ctxMap;
 var pl;
 var ctxPl;
 
+var healthPl;
+
 var en;
 var ctxEn;
+
+var healthEn;
+
+var stats;
+var ctxStats;
 
 var drawBtn;
 var clearBtn;
@@ -43,6 +50,12 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     en = document.getElementById("enemy");
     ctxEn = en.getContext("2d");
     
+    one = document.getElementById("one");
+    ctxOne = one.getContext("2d");
+    
+    two = document.getElementById("two");
+    ctxTwo = two.getContext("2d");
+    
     map.width  = gameWidth;
     map.height = gameHeigth;
     
@@ -51,6 +64,18 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     
     en.width   = gameWidth;
     en.height  = gameHeigth;
+    
+    one.width   = gameWidth;
+    one.height  = gameHeigth;
+    
+    two.width   = gameWidth;
+    two.height  = gameHeigth;
+    
+    ctxOne.fillStyle = "blue";
+    ctxOne.font = "bold 15pt Arial";
+    
+    ctxTwo.fillStyle = "black";
+    ctxTwo.font = "bold 15pt Arial";
     
     drawBtn = document.getElementById("drawBtn")
     clearBtn = document.getElementById("clearBtn")
@@ -61,8 +86,15 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     player = new Player();
     enemy = new Enemy();
     
+    healthPl = 100;
+    healthEn = 100;
+    
     drawBg();
+    
     startLoop();
+    
+    info1();
+    info2();
 
     document.addEventListener("keydown", checkKeyDown, false);
     document.addEventListener("keyup", checkKeyUp, false);
@@ -139,18 +171,26 @@ function clearctxPlayer()
 {
     ctxPl.clearRect(0, 0, gameWidth, gameHeigth);
 }
+
+function info1()//ИМЯ
+{
+     ctxOne.clearRect(0, 0, gameWidth, gameHeigth);
+     ctxOne.fillText("СИНИЙ: " + healthPl, 10, 20);
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 
 ///////ENEMY/////////////////////////////////////////////////////////////////
 function Enemy()
 {
-    this.srcX = 7;
-    this.srcY = 112;
-    this.drawX = 1100;
-    this.drawY = 120;
-    this.width = 100;
+    this.srcX   = 7;
+    this.srcY   = 115;
+    this.drawX  = 1110;
+    this.drawY  = 124;
+    this.width  = 100;
     this.height = 50;
+    
     this.speed = 7; 
 
     //Key
@@ -209,6 +249,12 @@ function checkKeyUp2(e)
 function clearctxEn()
 {
     ctxEn.clearRect(0, 0, gameWidth, gameHeigth);
+}
+
+function info2()//ИМЯ
+{
+     ctxTwo.clearRect(0, 0, gameWidth, gameHeigth);
+     ctxTwo.fillText("ЧЁРНЫЙ: " + healthEn, 1050, 20);
 }
 ///////////////////////////////////////////////////////////////////////////
 
