@@ -25,7 +25,6 @@ var player;
 var enemy;
 
 var isPlaying;
-var isEneming;
 
 var requestAnimFrame =  window.requestAnimationFrame || 
                         window.webkitRequestAnimationFrame ||
@@ -33,7 +32,7 @@ var requestAnimFrame =  window.requestAnimationFrame ||
                         window.oRequestAnimationFrame ||
                         window.msRequestAnimationFrame;
 
-function init()
+function init()//ИНИЦИАЛИЗАЦИЯ
 {
     map = document.getElementById("map");
     ctxMap = map.getContext("2d");
@@ -67,16 +66,18 @@ function init()
 
     document.addEventListener("keydown", checkKeyDown, false);
     document.addEventListener("keyup", checkKeyUp, false);
+    
+    document.addEventListener("keydown", checkKeyDown2, false);
+    document.addEventListener("keyup", checkKeyUp2, false);
 }
 
-////PLAYER/////////////////////////////////////
-
+////PLAYER/////////////////////////////////////////////////////////////////////
 function Player()
 {
     this.srcX = 0;
     this.srcY = 0;
     this.drawX = 0;
-    this.DrawY = 190;
+    this.drawY = 190;
     this.width = 110;
     this.height = 80;
     this.speed = 7;
@@ -91,7 +92,7 @@ function Player()
 Player.prototype.draw = function()
 {
     clearctxPlayer();
-    ctxPl.drawImage (tiles, this.srcX, this.srcY, this.width, this.height, this.drawX, this.DrawY, this.width, this.height);
+    ctxPl.drawImage (tiles, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
 }
 
 Player.prototype.update = function()
@@ -101,8 +102,8 @@ Player.prototype.update = function()
 
 Player.prototype.chooseDir = function()
 {
-    if(this.isUp)    this.DrawY -= this.speed;
-    if(this.isDown)  this.DrawY += this.speed;
+    if(this.isUp)    this.drawY -= this.speed;
+    if(this.isDown)  this.drawY += this.speed;
     if(this.isRight) this.drawX += this.speed;
     if(this.isLeft)  this.drawX -= this.speed;
 }
@@ -133,51 +134,88 @@ function clearctxPlayer()
 {
     ctxPl.clearRect(0, 0, gameWidth, gameHeigth);
 }
-//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 
-///////ENEMY/////////////////////////////////////////
+///////ENEMY/////////////////////////////////////////////////////////////////
 function Enemy()
 {
     this.srcX = 0;
     this.srcY = 112;
-    this.drawX = 900;
-    this.DrawY = 120;
+    this.drawX = 1100;
+    this.drawY = 120;
     this.width = 100;
     this.height = 50;
-    this.speed = 8; 
+    this.speed = 7; 
 
+    //Key
+    this.isUp    = false; 
+    this.isDown  = false;
+    this.isLeft  = false;
+    this.isRight = false;
 }
 
 Enemy.prototype.draw = function()
 {
     clearctxEn();
-    ctxEn.drawImage (tiles, this.srcX, this.srcY, this.width, this.height, this.drawX, this.DrawY, this.width, this.height);
+    ctxEn.drawImage (tiles, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
+}
+
+Enemy.prototype.chooseDir = function()
+{
+    if(this.isUp)    this.drawY -= this.speed;
+    if(this.isDown)  this.drawY += this.speed;
+    if(this.isRight) this.drawX += this.speed;
+    if(this.isLeft)  this.drawX -= this.speed;
+}
+
+Enemy.prototype.update = function()
+{
+    this.chooseDir();
+}
+
+function checkKeyDown2(e)
+{
+    var keyID2 = e.keyCode || e.which;
+    var keyChar2 = String.fromCharCode(keyID2);
+    
+    if(keyChar2 == "I")  {enemy.isUp    = true; e.preventDefault();}
+    if(keyChar2 == "K")  {enemy.isDown  = true; e.preventDefault();}
+    if(keyChar2 == "L")  {enemy.isRight = true; e.preventDefault();}
+    if(keyChar2 == "J")  {enemy.isLeft  = true; e.preventDefault();}
+}
+
+function checkKeyUp2(e)
+{
+    var keyID2 = e.keyCode || e.which;
+    var keyChar2 = String.fromCharCode(keyID2);
+    
+    if(keyChar2 == "I")  {enemy.isUp    = false; e.preventDefault();}
+    if(keyChar2 == "K")  {enemy.isDown  = false; e.preventDefault();}
+    if(keyChar2 == "J")  {enemy.isLeft  = false; e.preventDefault();}
+    if(keyChar2 == "L")  {enemy.isRight = false; e.preventDefault();}
 }
 
 function clearctxEn()
 {
     ctxEn.clearRect(0, 0, gameWidth, gameHeigth);
 }
+///////////////////////////////////////////////////////////////////////////
 
-Enemy.prototype.update = function()
-{
-    this.DrawY += this.speed;   
-}
 
-//////////////////////////////////////////////////////
-
-function update()
+function update()//ОБНОВЛЕНИЕ
 {
     player.update();
+    enemy.update();
 }
     
-function draw()
+function draw()//ВЫЗОВ
 {
     player.draw();
     enemy.draw();
 }
 
+///////////////////////ЦИКЛ////////////////////////////////////////////////
 function loop()
 {
     if(isPlaying)
@@ -190,7 +228,7 @@ function loop()
 
 function startLoop()
 {
-    isPlaying = true;
+    isPlaying = true;   
     loop();
 }
 
@@ -198,6 +236,8 @@ function stopLoop()
 {
     isPlaying = false;
 }
+///////////////////////////////////////////////////////////////////////////
+
 
 function drawRect()
 {
@@ -205,12 +245,12 @@ function drawRect()
     ctxMap.fillRect (0, 0, 1200, 650);
 }
 
-function clearRect()
+function clearRect()//ОЧИСТКА
 {
     ctxMap.clearRect (0, 0, 1200, 650);
 }
 
-function drawBg()
+function drawBg()//ФОН
 {
     ctxMap.drawImage (background, 0, 0, 1200, 650, 0, 0, gameWidth, gameHeigth);
 }

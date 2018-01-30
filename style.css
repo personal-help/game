@@ -19,3 +19,22 @@ body{
     color: black;
     font-family: cursive;
 }
+
+.left{
+    float: left;
+    width: 50px;
+    height: auto;
+    text-align: center;
+    margin-right: -3%;
+    font-family: fantasy;
+}
+
+.right{
+    float: right;
+    width: 50px;
+    height: auto;
+    text-align: center;
+    margin-right: 3%;
+    margin-left: -5%;
+    font-family: fantasy;
+}
