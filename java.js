@@ -97,6 +97,11 @@ Player.prototype.draw = function()
 
 Player.prototype.update = function()
 {
+    if(this.drawX < 0) this.drawX = 0;
+        if(this.drawX > 1090) this.drawX = 1090;
+            if(this.drawY < 0) this.drawY = 0;
+                if(this.drawY > 570) this.drawY = 570;
+    
     this.chooseDir();
 }
 
@@ -140,7 +145,7 @@ function clearctxPlayer()
 ///////ENEMY/////////////////////////////////////////////////////////////////
 function Enemy()
 {
-    this.srcX = 0;
+    this.srcX = 7;
     this.srcY = 112;
     this.drawX = 1100;
     this.drawY = 120;
@@ -171,6 +176,11 @@ Enemy.prototype.chooseDir = function()
 
 Enemy.prototype.update = function()
 {
+    if(this.drawX < 0) this.drawX = 0;
+        if(this.drawX > 1110) this.drawX = 1110;
+            if(this.drawY < 0) this.drawY = 0;
+                if(this.drawY > 600) this.drawY = 600;
+    
     this.chooseDir();
 }
 
