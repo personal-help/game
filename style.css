@@ -7,7 +7,7 @@ canvas{
     margin: 30px auto 0px;
 }
 
-#player, #enemy, #one, #two, #bot{
+#player, #enemy, #one, #two, #oneP, #twoE, #bot{
     display: block;
     margin: -650px auto 0px;;
 }

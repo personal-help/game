@@ -14,6 +14,16 @@ var healthEn;
 var bot;
 var ctxBot;
 
+var one;
+var oneP;
+var ctxOne;
+var ctxOneP;
+
+var two;
+var twoP;
+var ctxTwo;
+var ctxTwoP;
+
 var drawBtn;
 var clearBtn;
 
@@ -55,6 +65,12 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     two = document.getElementById("two");
     ctxTwo = two.getContext("2d");
     
+    oneP = document.getElementById("oneP");
+    ctxOneP = oneP.getContext("2d");
+    
+    twoE = document.getElementById("twoE");
+    ctxTwoE = twoE.getContext("2d");
+    
     bot = document.getElementById("bot");
     ctxBot = bot.getContext("2d");
     
@@ -73,6 +89,12 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     two.width   = gameWidth;
     two.height  = gameHeigth;
     
+    oneP.width  = gameWidth;
+    oneP.height = gameHeigth;
+    
+    twoE.width  = gameWidth;
+    twoE.height = gameHeigth
+    
     bot.width   = gameWidth;
     bot.height  = gameHeigth;
     
@@ -81,6 +103,12 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     
     ctxTwo.fillStyle = "black";
     ctxTwo.font = "bold 15pt Arial";
+    
+    ctxOneP.fillStyle = "blue";
+    ctxOneP.font = "bold 50pt Arial";
+    
+    ctxTwoE.fillStyle = "black";
+    ctxTwoE.font = "bold 50pt Arial";
     
     drawBtn = document.getElementById("drawBtn")
     clearBtn = document.getElementById("clearBtn")
@@ -97,9 +125,6 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     drawBg();
     
     startLoop();
-    
-    info1();
-    info2();
 
     document.addEventListener("keydown", checkKeyDown, false);
     document.addEventListener("keyup", checkKeyUp, false);
@@ -113,10 +138,12 @@ function Player()
 {
     this.srcX = 0;
     this.srcY = 0;
-    this.drawX = 0;
+    
+    this.drawX = 40;
     this.drawY = 190;
-    this.width = 110;
-    this.height = 80;
+    
+    this.width = 49;
+    this.height = 100;
     
     this.speed = 10;
     
@@ -135,10 +162,23 @@ Player.prototype.draw = function()
 
 Player.prototype.update = function()
 {
-    if(this.drawX < 0) this.drawX = 0;
-        if(this.drawX > 1090) this.drawX = 1090;
-            if(this.drawY < 0) this.drawY = 0;
-                if(this.drawY > 570) this.drawY = 570;
+    if(healthPl < 1) {stopLoop(); end1();}
+    
+    if(this.drawX < 0) {this.drawX = 0;}
+        if(this.drawX > 1150) {this.drawX = 1150;}
+            if(this.drawY < 0) {this.drawY = 0;}
+                if(this.drawY > 570) {this.drawY = 570;}
+    
+    for(var i = 0; i < bots.length; i++)
+        {
+            if(this.drawX >= bots[i].drawX &&
+               this.drawY >= bots[i].drawY &&
+               this.drawX <= bots[i].drawX + this.width &&
+               this.drawY <= bots[i].drawY + this.height)
+                {
+                    healthPl--;
+                }
+        }
     
     this.chooseDir();
 }
@@ -184,18 +224,25 @@ function info1()//ИМЯ
      ctxOne.fillText("СИНИЙ: " + healthPl, 10, 20);
 }
 
+function end1()//ИМЯ
+{
+     ctxOneP.clearRect(0, 0, gameWidth, gameHeigth);
+     ctxOneP.fillText("СИНИЙ ПРОИГРАЛ", 400, 200);
+}
 /////////////////////////////////////////////////////////////////////////////
 
 
 ///////ENEMY/////////////////////////////////////////////////////////////////
 function Enemy()
 {
-    this.srcX   = 0;
-    this.srcY   = 80;
+    this.srcX   = 65;
+    this.srcY   = 0;
+    
     this.drawX  = 1110;
-    this.drawY  = 124;
-    this.width  = 100;
-    this.height = 49;
+    this.drawY  = 150;
+    
+    this.width  = 49;
+    this.height = 100;
     
     this.speed = 10; 
 
@@ -222,10 +269,23 @@ Enemy.prototype.chooseDir = function()
 
 Enemy.prototype.update = function()
 {
+    if(healthEn < 1) {stopLoop(); end2();}
+    
     if(this.drawX < 0) this.drawX = 0;
-        if(this.drawX > 1110) this.drawX = 1110;
+        if(this.drawX > 1150) this.drawX = 1150;
             if(this.drawY < 0) this.drawY = 0;
-                if(this.drawY > 600) this.drawY = 600;
+                if(this.drawY > 570) this.drawY = 570;
+    
+    for(var i = 0; i < bots.length; i++)
+        {
+            if(this.drawX > bots[i].drawX &&
+               this.drawY > bots[i].drawY &&
+               this.drawX < bots[i].drawX + this.width &&
+               this.drawY < bots[i].drawY + this.height)
+                {
+                    healthEn--;
+                }
+        }
     
     this.chooseDir();
 }
@@ -262,19 +322,27 @@ function info2()//ИМЯ
      ctxTwo.clearRect(0, 0, gameWidth, gameHeigth);
      ctxTwo.fillText("ЧЁРНЫЙ: " + healthEn, 1050, 20);
 }
+
+function end2()//ИМЯ
+{
+     ctxTwoE.clearRect(0, 0, gameWidth, gameHeigth);
+     ctxTwoE.fillText("ЧЁРНЫЙ ПРОИГРАЛ", 400, 200);
+}
 ///////////////////////////////////////////////////////////////////////////
 
 //////BOT//////////////////////////////////////////////////////////////////
 function Bot()
 {
-    this.srcX = 0;
-    this.srcY = 130;
+    this.srcX = 125;
+    this.srcY = 0;
+    
     this.drawX = Math.floor(Math.random() * gameWidth);
     this.drawY = Math.floor(Math.random() * gameHeigth) + gameHeigth;
-    this.width = 125;
-    this.height = 90;
     
-    this.speed = 20;
+    this.width = 25;
+    this.height = 50;
+    
+    this.speed = 10;
 }
 
 Bot.prototype.draw = function()
@@ -308,6 +376,8 @@ function spawnBot(count)//+BOTS
 
 function update()//ОБНОВЛЕНИЕ
 {
+    info1();
+    info2();
     player.update();
     enemy.update();
     
@@ -346,7 +416,7 @@ function startLoop()
     isPlaying = true;   
     loop();
     
-    spawnBot(4)
+    spawnBot(9)
 }
 
 function stopLoop()
