@@ -5,16 +5,14 @@ var ctxMap;
 
 var pl;
 var ctxPl;
-
 var healthPl;
 
 var en;
 var ctxEn;
-
 var healthEn;
 
-var stats;
-var ctxStats;
+var bot;
+var ctxBot;
 
 var drawBtn;
 var clearBtn;
@@ -30,6 +28,7 @@ tiles.src = "img/ob.png";
 
 var player;
 var enemy;
+var bots = []; 
 
 var isPlaying;
 
@@ -56,6 +55,9 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     two = document.getElementById("two");
     ctxTwo = two.getContext("2d");
     
+    bot = document.getElementById("bot");
+    ctxBot = bot.getContext("2d");
+    
     map.width  = gameWidth;
     map.height = gameHeigth;
     
@@ -70,6 +72,9 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     
     two.width   = gameWidth;
     two.height  = gameHeigth;
+    
+    bot.width   = gameWidth;
+    bot.height  = gameHeigth;
     
     ctxOne.fillStyle = "blue";
     ctxOne.font = "bold 15pt Arial";
@@ -112,7 +117,8 @@ function Player()
     this.drawY = 190;
     this.width = 110;
     this.height = 80;
-    this.speed = 7;
+    
+    this.speed = 10;
     
     //Key
     this.isUp    = false; 
@@ -184,14 +190,14 @@ function info1()//ИМЯ
 ///////ENEMY/////////////////////////////////////////////////////////////////
 function Enemy()
 {
-    this.srcX   = 7;
-    this.srcY   = 115;
+    this.srcX   = 0;
+    this.srcY   = 80;
     this.drawX  = 1110;
     this.drawY  = 124;
     this.width  = 100;
-    this.height = 50;
+    this.height = 49;
     
-    this.speed = 7; 
+    this.speed = 10; 
 
     //Key
     this.isUp    = false; 
@@ -258,17 +264,70 @@ function info2()//ИМЯ
 }
 ///////////////////////////////////////////////////////////////////////////
 
+//////BOT//////////////////////////////////////////////////////////////////
+function Bot()
+{
+    this.srcX = 0;
+    this.srcY = 130;
+    this.drawX = Math.floor(Math.random() * gameWidth);
+    this.drawY = Math.floor(Math.random() * gameHeigth) + gameHeigth;
+    this.width = 125;
+    this.height = 90;
+    
+    this.speed = 20;
+}
+
+Bot.prototype.draw = function()
+{
+    ctxBot.drawImage (tiles, this.srcX, this.srcY, this.width, this.height, this.drawX, this.drawY, this.width, this.height);
+}
+
+Bot.prototype.update = function()
+{
+    this.drawY -= this.speed;
+    
+    if(this.drawY < -100) 
+    {
+        this.drawY = Math.floor (Math.random() * gameHeigth) + gameHeigth; 
+        this.drawX = Math.floor (Math.random() * gameWidth);
+    }
+}
+   function clearctxBot()
+{
+    ctxBot.clearRect(0, 0, gameWidth, gameHeigth);
+}
+
+function spawnBot(count)//+BOTS
+{
+    for(var i = 0; i < count; i++)
+        {
+            bots[i] = new Bot();
+        }
+}
+///////////////////////////////////////////////////////////////////////////
 
 function update()//ОБНОВЛЕНИЕ
 {
     player.update();
     enemy.update();
+    
+    for(var i = 0; i < bots.length; i++)
+    {
+        bots[i].draw();         
+    }
 }
     
 function draw()//ВЫЗОВ
 {
     player.draw();
     enemy.draw();
+    
+    clearctxBot();
+    
+    for(var i = 0; i < bots.length; i++)
+    {
+        bots[i].update();         
+    }
 }
 
 ///////////////////////ЦИКЛ////////////////////////////////////////////////
@@ -286,6 +345,8 @@ function startLoop()
 {
     isPlaying = true;   
     loop();
+    
+    spawnBot(4)
 }
 
 function stopLoop()
