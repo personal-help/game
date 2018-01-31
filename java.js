@@ -227,7 +227,7 @@ function info1()//ИМЯ
 function end1()//ИМЯ
 {
      ctxOneP.clearRect(0, 0, gameWidth, gameHeigth);
-     ctxOneP.fillText("СИНИЙ ПРОИГРАЛ", 400, 200);
+     ctxOneP.fillText("СИНИЙ ПРОИГРАЛ", 320, 200);
 }
 /////////////////////////////////////////////////////////////////////////////
 
@@ -326,7 +326,7 @@ function info2()//ИМЯ
 function end2()//ИМЯ
 {
      ctxTwoE.clearRect(0, 0, gameWidth, gameHeigth);
-     ctxTwoE.fillText("ЧЁРНЫЙ ПРОИГРАЛ", 400, 200);
+     ctxTwoE.fillText("ЧЁРНЫЙ ПРОИГРАЛ", 320, 200);
 }
 ///////////////////////////////////////////////////////////////////////////
 
