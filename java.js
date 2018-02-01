@@ -3,26 +3,33 @@ window.onload = init;
 var map;
 var ctxMap;
 
+//PLAYER////////
 var pl;
 var ctxPl;
 var healthPl;
-
-var en;
-var ctxEn;
-var healthEn;
-
-var bot;
-var ctxBot;
 
 var one;
 var oneP;
 var ctxOne;
 var ctxOneP;
+///////////////
+
+//ENEMY////////
+var en;
+var ctxEn;
+var healthEn;
 
 var two;
 var twoP;
 var ctxTwo;
 var ctxTwoP;
+//////////////
+
+var mapY = 0;
+var mapY1 = 650;
+
+var bot;
+var ctxBot;
 
 var drawBtn;
 var clearBtn;
@@ -32,6 +39,9 @@ var gameHeigth = 650;
 
 var background = new Image();
 background.src = "img/1.jpg";
+
+var background1 = new Image();
+background1.src = "img/1.jpg";
 
 var tiles = new Image();
 tiles.src = "img/ob.png";
@@ -121,8 +131,6 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     
     healthPl = 100;
     healthEn = 100;
-    
-    drawBg();
     
     startLoop();
 
@@ -376,8 +384,12 @@ function spawnBot(count)//+BOTS
 
 function update()//ОБНОВЛЕНИЕ
 {
+    moveBg();
+    drawBg();
+    
     info1();
     info2();
+    
     player.update();
     enemy.update();
     
@@ -385,6 +397,16 @@ function update()//ОБНОВЛЕНИЕ
     {
         bots[i].draw();         
     }
+}
+
+function moveBg()
+{
+    var vel  = 4
+    mapY  -= vel;
+    mapY1 -= vel;
+    
+    if(mapY + gameHeigth < 5) mapY = gameHeigth;
+    if(mapY1 + gameHeigth < 5) mapY1 = gameHeigth;
 }
     
 function draw()//ВЫЗОВ
@@ -434,10 +456,14 @@ function drawRect()
 
 function clearRect()//ОЧИСТКА
 {
-    ctxMap.clearRect (0, 0, 1200, 650);
+    ctxMap.clearRect (0, 0, gameWidth, gameHeigth);
 }
 
 function drawBg()//ФОН
 {
-    ctxMap.drawImage (background, 0, 0, 1200, 650, 0, 0, gameWidth, gameHeigth);
+    ctxMap.clearRect (0, 0, gameWidth, gameHeigth);
+    
+    ctxMap.drawImage (background, 0, 0, 1200, 650, 0, mapY, gameWidth, gameHeigth);
+    
+    ctxMap.drawImage (background1, 0, 0, 1200, 650, 0, mapY1, gameWidth, gameHeigth);
 }
