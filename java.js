@@ -9,7 +9,6 @@ var ctxPl;
 var healthPl;
 
 var one;
-var oneP;
 var ctxOne;
 var ctxOneP;
 ///////////////
@@ -20,7 +19,6 @@ var ctxEn;
 var healthEn;
 
 var two;
-var twoP;
 var ctxTwo;
 var ctxTwoP;
 //////////////
@@ -31,8 +29,8 @@ var mapY1 = 650;
 var bot;
 var ctxBot;
 
-var drawBtn;
-var clearBtn;
+var onePlay;
+var twoPlay;
 
 var gameWidth = 1200;
 var gameHeigth = 650;
@@ -120,11 +118,11 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     ctxTwoE.fillStyle = "black";
     ctxTwoE.font = "bold 50pt Arial";
     
-    drawBtn = document.getElementById("drawBtn")
-    clearBtn = document.getElementById("clearBtn")
+    onePlay = document.getElementById("onePlay")
+    twoPlay = document.getElementById("twoPlay")
     
-    drawBtn.addEventListener("click", drawRect, false);
-    clearBtn.addEventListener("click", clearRect, false);
+    onePlay.addEventListener("click", onePlay, true);
+    twoPlay.addEventListener("click", twoPlay, true);
     
     player = new Player();
     enemy = new Enemy();
@@ -133,7 +131,7 @@ function init()//ИНИЦИАЛИЗАЦИЯ
     healthEn = 100;
     
     startLoop();
-
+      
     document.addEventListener("keydown", checkKeyDown, false);
     document.addEventListener("keyup", checkKeyUp, false);
     
@@ -386,7 +384,6 @@ function update()//ОБНОВЛЕНИЕ
 {
     moveBg();
     drawBg();
-    
     info1();
     info2();
     
@@ -398,6 +395,9 @@ function update()//ОБНОВЛЕНИЕ
         bots[i].draw();         
     }
 }
+
+////////////////////////////
+////////////////////////////
 
 function moveBg()
 {
